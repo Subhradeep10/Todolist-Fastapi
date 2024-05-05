@@ -1,0 +1,277 @@
+# swagger.yaml
+
+openapi: "3.0.2"
+info:
+  title: "Todo-List API"
+  version: "0.1.0"
+paths:
+  /api/v1/users/create:
+    post:
+      tags:
+        - users
+      summary: "Create new user"
+      operationId: "create_user_api_v1_users_create_post"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserAuth"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserOut"
+        '422':
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+  /api/v1/users/me:
+    get:
+      tags:
+        - users
+      summary: "Get details of currently logged in user"
+      operationId: "get_me_api_v1_users_me_get"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserOut"
+      security:
+        - JWT: []
+  /api/v1/users/update:
+    post:
+      tags:
+        - users
+      summary: "Update User"
+      operationId: "update_user_api_v1_users_update_post"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserUpdate"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserOut"
+        '422':
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - JWT: []
+  /api/v1/tasks/:
+    get:
+      tags:
+        - tasks
+      summary: "Get all todos of the user"
+      operationId: "list_api_v1_tasks__get"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/TodoOut"
+      security:
+        - JWT: []
+
+  /api/v1/tasks/create:
+    post:
+      tags:
+        - tasks
+      summary: "Create Todo"
+      operationId: "create_todo_api_v1_tasks_create_post"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TodoCreate"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        '422':
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - JWT: []
+  /api/v1/tasks/{todo_id}:
+    get:
+      tags:
+        - tasks
+      summary: "Get a todo by todo_id"
+      operationId: "retrieve_api_v1_tasks__todo_id__get"
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            title: "Todo Id"
+            type: "string"
+            format: "uuid"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TodoOut"
+        '422':
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - JWT: []
+    put:
+      tags:
+        - tasks
+      summary: "Update todo by todo_id"
+      operationId: "update_api_v1_tasks__todo_id__put"
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            title: "Todo Id"
+            type: "string"
+            format: "uuid"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TodoUpdate"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TodoOut"
+        '422':
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - JWT: []
+    delete:
+      tags:
+        - tasks
+      summary: "Delete todo by todo_id"
+      operationId: "delete_api_v1_tasks__todo_id__delete"
+      parameters:
+        - name: todo_id
+          in: path
+          required: true
+          schema:
+            title: "Todo Id"
+            type: "string"
+            format: "uuid"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+      security:
+        - JWT: []
+  /api/v1/auth/login:
+    post:
+      tags:
+        - auth
+      summary: "Create access and refresh tokens for user"
+      operationId: "login_api_v1_auth_login_post"
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Body_login_api_v1_auth_login_post"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenSchema"
+        '422':
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
+
+  /api/v1/auth/test-token:
+    post:
+      tags:
+        - auth
+      summary: "Test if the access token is valid"
+      operationId: "test_token_api_v1_auth_test_token_post"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserOut"
+      security:
+        - JWT: []
+
+  /api/v1/auth/refresh:
+    post:
+      tags:
+        - auth
+      summary: "Refresh token"
+      operationId: "refresh_token_api_v1_auth_refresh_post"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              title: "Refresh Token"
+              type: "string"
+      responses:
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TokenSchema"
+        '422':
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HTTPValidationError"
