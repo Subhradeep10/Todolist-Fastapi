@@ -11,7 +11,7 @@ If you're running the deployed instance, make sure to change the database connec
 
 ### Setting up `.env` file
 
-To setup `.env` file on the backend, create a file named `.env` in `/backend/app`.
+To setup `.env` file on the backend, change the file named `.env` in `/app`.
 Add the following in the `.env` file.
 
 ```txt
