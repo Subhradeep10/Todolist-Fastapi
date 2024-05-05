@@ -45,6 +45,10 @@ Assuming you are in the backend directory.
 uvicorn app.app:app --reload
 ```
 
+# Fetching all the API's
+
+Go to `localhost:8000/docs` and there you will get all the API's
+
 # Todo-List API
 
 Version: 0.1.0
