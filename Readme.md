@@ -49,6 +49,9 @@ uvicorn app.app:app --reload
 
 Go to `localhost:8000/docs` and there you will get all the API's
 
+![image](https://github.com/Subhradeep10/Todolist-Fastapi/assets/70656957/ab1b2405-a3e1-43bc-815a-8a43069ee78a)
+
+
 # Todo-List API
 
 Version: 0.1.0
